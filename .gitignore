@@ -17,6 +17,7 @@ bin/
 *.ipr
 *.iml
 *.iws
+/http/
 
 # NetBeans
 nb-configuration.xml
@@ -43,3 +44,6 @@ nb-configuration.xml
 /.quarkus/cli/plugins/
 # TLS Certificates
 .certs/
+
+# SQL Lite db file
+*.db
