@@ -1,6 +1,5 @@
-package little.old.me.ingestion.adapter.out.persistance.entity;
+package little.old.me.shared.adapter.persistance.entity;
 
-import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;

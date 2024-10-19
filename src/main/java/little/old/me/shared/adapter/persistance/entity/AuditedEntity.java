@@ -1,10 +1,9 @@
-package little.old.me.ingestion.adapter.out.persistance.entity;
+package little.old.me.shared.adapter.persistance.entity;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

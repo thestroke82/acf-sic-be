@@ -2,6 +2,7 @@ package little.old.me.ingestion.adapter.out.persistance.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import little.old.me.shared.adapter.persistance.entity.AuditedEntityBase;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
