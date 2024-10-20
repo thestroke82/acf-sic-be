@@ -2,6 +2,7 @@ package little.old.me.ingestion.domain.core.mapper;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import little.old.me.ingestion.domain.core.model.RawData;
+import little.old.me.shared.exception.MappingException;
 import little.old.me.shared.infra.RegisterCustomModulesCustomizer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,6 +11,8 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class RawDataMapperTest {
@@ -34,7 +37,7 @@ class RawDataMapperTest {
     @Test
     void given_goodJsonString_when_map_then_return_right_rawData() {
         // when
-        RawData rawData = rawDataMapper.map(goodJsonString).get();
+        RawData rawData = rawDataMapper.map(goodJsonString);
 
         // then
         assertEquals(RawData.SourceType.allianz, rawData.getSource());
@@ -46,12 +49,9 @@ class RawDataMapperTest {
     }
 
     @Test
-    void given_badJsonString_when_map_then_return_empty() {
+    void given_badJsonString_when_map_then_throw_exception() {
         // when
-        var result = rawDataMapper.map(badJsonString);
-
-        // then
-        assertTrue(result.isEmpty());
+        assertThrows(MappingException.class, () -> rawDataMapper.map(badJsonString));
     }
 
 }

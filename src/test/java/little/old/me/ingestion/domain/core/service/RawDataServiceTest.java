@@ -4,6 +4,7 @@ import little.old.me.ingestion.domain.core.mapper.RawDataMapper;
 import little.old.me.ingestion.domain.core.model.RawData;
 import little.old.me.ingestion.domain.port.in.IngestRawDataCommand;
 import little.old.me.ingestion.domain.port.out.PersistRawDataPort;
+import little.old.me.shared.exception.MappingException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -46,14 +47,14 @@ public class RawDataServiceTest {
     }
 
     @Test
-    void given_mapperFails_when_ingestRawData_then_logError() {
+    void given_mapperFails_when_ingestRawData_then_throw_exception() {
         IngestRawDataCommand command = mock(IngestRawDataCommand.class);
         when(command.isValid()).thenReturn(true);
         when(command.getData()).thenReturn("raw data string");
+        when(rawDataMapper.map(any())).thenThrow(new MappingException("mapper failed", null));
 
-        when(rawDataMapper.map(any())).thenReturn(Optional.empty());
 
-        rawDataService.ingestRawData(command);
+        assertThrows(RuntimeException.class, () -> rawDataService.ingestRawData(command));
 
         verify(rawDataMapper).map(any());
         verify(persistRawDataPort, never()).persistRawData(any());
@@ -66,7 +67,7 @@ public class RawDataServiceTest {
         when(command.getData()).thenReturn("raw data string");
 
         RawData rawData = mock(RawData.class);
-        when(rawDataMapper.map(any())).thenReturn(Optional.of(rawData));
+        when(rawDataMapper.map(any())).thenReturn(rawData);
 
         rawDataService.ingestRawData(command);
 

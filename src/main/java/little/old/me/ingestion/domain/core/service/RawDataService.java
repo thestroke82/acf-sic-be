@@ -1,23 +1,22 @@
 package little.old.me.ingestion.domain.core.service;
 
 import jakarta.enterprise.context.ApplicationScoped;
-import little.old.me.ingestion.domain.core.mapper.PayloadMapper;
-import little.old.me.ingestion.domain.core.mapper.PayloadMapperFactory;
 import little.old.me.ingestion.domain.core.mapper.RawDataMapper;
 import little.old.me.ingestion.domain.core.model.RawData;
 import little.old.me.ingestion.domain.port.in.IngestRawDataCommand;
 import little.old.me.ingestion.domain.port.in.IngestRawDataUseCase;
 import little.old.me.ingestion.domain.port.out.PersistRawDataPort;
+import little.old.me.shared.exception.ExceptionSupport;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
-import java.util.Optional;
 
 
 @ApplicationScoped
 @RequiredArgsConstructor
 @Slf4j
 public class RawDataService implements IngestRawDataUseCase {
+
+    private final ExceptionSupport exceptionSupport;
     private final RawDataMapper rawDataMapper;
     // private final PayloadMapperFactory payloadMapperFactory;
     private final PersistRawDataPort persistRawDataPort;
@@ -31,13 +30,8 @@ public class RawDataService implements IngestRawDataUseCase {
             throw new IllegalArgumentException("Ingest Raw Data command is not valid");
         }
 
-        Optional<RawData> opt = rawDataMapper.map(command.getData());
-        if (!opt.isPresent()) {
-            log.error("Failed to serialize raw data: {}", command.getData());
-            return;
-        }
+        RawData rawData = rawDataMapper.map(command.getData());
 
-        RawData rawData = opt.get();
 //        PayloadMapper payloadMapper = payloadMapperFactory
 //                .getPayloadMapper(rawDataString.getSource(), rawDataString.getVersion());
 //        Optional<?> payload = payloadMapper.map(rawDataString.getPayload());

@@ -1,24 +1,23 @@
 package little.old.me.ingestion.domain.core.mapper;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.enterprise.context.ApplicationScoped;
 import little.old.me.ingestion.domain.core.model.RawData;
-import lombok.NonNull;
+import little.old.me.shared.exception.MappingException;
+import little.old.me.shared.mapper.Mapper;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 import java.util.Optional;
 
 @ApplicationScoped
 @RequiredArgsConstructor
-@Slf4j
-public class RawDataMapper {
+public class RawDataMapper implements Mapper<String, RawData> {
 
     private final ObjectMapper objectMapper;
 
-    public Optional<RawData> map(@NonNull String rawData) {
+    @Override
+    public RawData map(String rawData) {
         try {
             // Parse everything except payload
             JsonNode rootNode = objectMapper.readTree(rawData);
@@ -30,11 +29,9 @@ public class RawDataMapper {
             Optional.ofNullable(rootNode.get("payload"))
                     .ifPresent(node -> result.setPayload(node.toString()));
 
-            return Optional.of(result);
-        } catch (JsonProcessingException e) {
-            log.error("Error while mapping raw data: {}", e.getMessage());
-            log.trace("", e);
-            return Optional.empty();
+            return result;
+        } catch (Exception e) {
+            throw new MappingException("Error while mapping to RawData", e);
         }
     }
 }
