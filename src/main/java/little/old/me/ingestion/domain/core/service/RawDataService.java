@@ -1,6 +1,7 @@
 package little.old.me.ingestion.domain.core.service;
 
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.transaction.Transactional;
 import little.old.me.ingestion.domain.core.mapper.RawDataMapper;
 import little.old.me.ingestion.domain.core.model.RawData;
 import little.old.me.ingestion.domain.port.in.IngestRawDataCommand;
@@ -22,6 +23,7 @@ public class RawDataService implements IngestRawDataUseCase {
     private final LoadRawDataPort loadRawDataPort;
 
     @Override
+    @Transactional
     public void ingestRawData(IngestRawDataCommand command) {
         if (command == null) {
             throw new IllegalArgumentException("Ingest Raw Data command cannot be null");

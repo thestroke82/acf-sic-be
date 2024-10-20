@@ -9,8 +9,10 @@ import little.old.me.ingestion.domain.port.in.FetchSettingsUseCase;
 import little.old.me.ingestion.domain.port.in.SaveSettingsCommand;
 import little.old.me.ingestion.domain.port.in.SaveSettingsUseCase;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Path("/settings")
+@Slf4j
 @RequiredArgsConstructor
 public class SettingsController {
 
