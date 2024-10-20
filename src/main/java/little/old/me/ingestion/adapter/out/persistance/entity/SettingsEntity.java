@@ -2,7 +2,7 @@ package little.old.me.ingestion.adapter.out.persistance.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import little.old.me.shared.adapter.persistance.entity.AuditedEntityBase;
+import little.old.me.shared.adapter.persistance.entity.AuditedEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,7 +15,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class SettingsEntity extends AuditedEntityBase {
+public class SettingsEntity extends AuditedEntity {
     public static final long ONLY_ID = 1L;
 
     @Id

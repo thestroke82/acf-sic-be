@@ -5,8 +5,8 @@ import little.old.me.ingestion.domain.core.mapper.RawDataMapper;
 import little.old.me.ingestion.domain.core.model.RawData;
 import little.old.me.ingestion.domain.port.in.IngestRawDataCommand;
 import little.old.me.ingestion.domain.port.in.IngestRawDataUseCase;
+import little.old.me.ingestion.domain.port.out.LoadRawDataPort;
 import little.old.me.ingestion.domain.port.out.PersistRawDataPort;
-import little.old.me.shared.exception.ExceptionSupport;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -16,10 +16,10 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class RawDataService implements IngestRawDataUseCase {
 
-    private final ExceptionSupport exceptionSupport;
     private final RawDataMapper rawDataMapper;
     // private final PayloadMapperFactory payloadMapperFactory;
     private final PersistRawDataPort persistRawDataPort;
+    private final LoadRawDataPort loadRawDataPort;
 
     @Override
     public void ingestRawData(IngestRawDataCommand command) {
@@ -31,6 +31,12 @@ public class RawDataService implements IngestRawDataUseCase {
         }
 
         RawData rawData = rawDataMapper.map(command.getData());
+
+        // only continue if the raw data is not already persisted
+        if (loadRawDataPort.loadByPayloadChecksum(rawData.getPayloadChecksum()).isPresent()) {
+            log.info("Raw data already persisted: {}", rawData);
+            return;
+        }
 
 //        PayloadMapper payloadMapper = payloadMapperFactory
 //                .getPayloadMapper(rawDataString.getSource(), rawDataString.getVersion());

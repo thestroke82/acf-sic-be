@@ -1,7 +1,11 @@
--- V1__create_settings_table.sql
--- This migration script creates the 'settings' table
+-- Create the new settings_entity table
+CREATE TABLE settings (
+    id BIGINT PRIMARY KEY NOT NULL,
+    data_path VARCHAR(255),
 
-CREATE TABLE IF NOT EXISTS settings (
-    id INTEGER PRIMARY KEY,  -- SQLite uses INTEGER as the type for primary key autoincrement columns
-    data_path TEXT
+    -- Fields inherited from AuditedEntityBase
+    creation_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    last_updated_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    created_by VARCHAR(255),
+    last_updated_by VARCHAR(255)
 );

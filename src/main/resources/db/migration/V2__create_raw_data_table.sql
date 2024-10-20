@@ -1,8 +1,6 @@
--- V3__Create_RawDataEntity_Table.sql
-
 -- Create table for RawDataEntity
 CREATE TABLE IF NOT EXISTS raw_data (
-    id BIGINT PRIMARY KEY NOT NULL,
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
 
     -- Source type is stored as a simple VARCHAR
     source VARCHAR(50) NOT NULL,
@@ -13,6 +11,7 @@ CREATE TABLE IF NOT EXISTS raw_data (
 
     -- Payload is stored as a large object
     payload TEXT,
+    payload_checksum BYTEA NOT NULL UNIQUE,
 
     -- Fields inherited from AuditedEntityBase
     creation_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,

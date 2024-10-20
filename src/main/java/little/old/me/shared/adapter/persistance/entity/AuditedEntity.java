@@ -1,6 +1,6 @@
 package little.old.me.shared.adapter.persistance.entity;
 
-import io.quarkus.hibernate.orm.panache.PanacheEntity;
+import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
 import lombok.AllArgsConstructor;
@@ -17,7 +17,7 @@ import java.time.Instant;
 @NoArgsConstructor
 @AllArgsConstructor
 @MappedSuperclass
-public abstract class AuditedEntity extends PanacheEntity {
+public abstract class AuditedEntity extends PanacheEntityBase {
 
     @CreationTimestamp
     @Column(updatable = false, nullable = false)

@@ -24,6 +24,9 @@ public class RawData {
     @JsonIgnore
     private String payload;
 
+    @JsonIgnore
+    private byte[] payloadChecksum;
+
     public enum SourceType {
         allianz
     }

@@ -3,6 +3,7 @@ package little.old.me.ingestion.domain.core.service;
 import little.old.me.ingestion.domain.core.mapper.RawDataMapper;
 import little.old.me.ingestion.domain.core.model.RawData;
 import little.old.me.ingestion.domain.port.in.IngestRawDataCommand;
+import little.old.me.ingestion.domain.port.out.LoadRawDataPort;
 import little.old.me.ingestion.domain.port.out.PersistRawDataPort;
 import little.old.me.shared.exception.MappingException;
 import org.junit.jupiter.api.BeforeEach;
@@ -25,12 +26,17 @@ public class RawDataServiceTest {
     @Mock
     private PersistRawDataPort persistRawDataPort;
 
+    @Mock
+    private LoadRawDataPort loadRawDataPort;
+
     @InjectMocks
     private RawDataService rawDataService;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
+
+        when(loadRawDataPort.loadByPayloadChecksum(any())).thenReturn(Optional.empty());
     }
 
     @Test

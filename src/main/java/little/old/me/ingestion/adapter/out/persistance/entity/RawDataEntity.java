@@ -3,7 +3,9 @@ package little.old.me.ingestion.adapter.out.persistance.entity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.Lob;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import little.old.me.shared.adapter.persistance.entity.AuditedEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,6 +23,10 @@ import java.time.Instant;
 @AllArgsConstructor
 public class RawDataEntity extends AuditedEntity {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)  // Use IDENTITY for SQLite
+    private Long id;
+
     @Enumerated(EnumType.STRING)
     private SourceType source;
 
@@ -29,6 +35,7 @@ public class RawDataEntity extends AuditedEntity {
     private Instant timestamp;
 
     private String payload;
+    private byte[] payloadChecksum;
 
     public enum SourceType {
         allianz
