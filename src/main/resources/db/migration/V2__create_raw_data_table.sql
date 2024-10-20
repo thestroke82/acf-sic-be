@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS raw_data (
 
     -- Payload is stored as a large object
     payload TEXT,
-    payload_checksum BYTEA NOT NULL UNIQUE,
+    payload_checksum BLOB NOT NULL UNIQUE,
 
     -- Fields inherited from AuditedEntityBase
     creation_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,

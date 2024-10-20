@@ -2,9 +2,6 @@ package little.old.me.shared.adapter.persistance.entity;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,10 +17,16 @@ import java.time.Instant;
 @NoArgsConstructor
 @AllArgsConstructor
 @MappedSuperclass
-public abstract class AuditedEntity extends AuditedEntityBase {
+public abstract class AuditedEntityBase extends PanacheEntityBase {
 
-    // needs an INTEGER auto increment
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @CreationTimestamp
+    @Column(updatable = false, nullable = false)
+    private Instant creationDate;
+
+    @UpdateTimestamp
+    private Instant lastUpdatedDate;
+
+    private String createdBy;
+
+    private String lastUpdatedBy;
 }

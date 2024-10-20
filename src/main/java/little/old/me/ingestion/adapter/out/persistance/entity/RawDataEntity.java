@@ -7,6 +7,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import little.old.me.shared.adapter.persistance.entity.AuditedEntity;
+import little.old.me.shared.adapter.persistance.entity.AuditedEntityBase;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -22,10 +23,6 @@ import java.time.Instant;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RawDataEntity extends AuditedEntity {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)  // Use IDENTITY for SQLite
-    private Long id;
 
     @Enumerated(EnumType.STRING)
     private SourceType source;

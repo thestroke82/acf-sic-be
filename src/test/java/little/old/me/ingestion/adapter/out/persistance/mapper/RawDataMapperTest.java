@@ -33,13 +33,13 @@ public class RawDataMapperTest {
     void given_valid_rawDataEntity_then_map_correctly() {
         // given
         RawDataEntity rawDataEntity = RawDataEntity.builder()
-                .id(1l)
                 .source(RawDataEntity.SourceType.allianz)
                 .version(1)
                 .url("www.gogle.com")
                 .timestamp(Instant.parse("2024-10-17T16:42:24.238Z"))
                 .payload("{\"fabio\":\"bello\"}")
                 .build();
+        rawDataEntity.setId(1);
 
         // when
         RawData rawData = rawDataMapper.map(rawDataEntity);
