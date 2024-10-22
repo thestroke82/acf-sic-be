@@ -11,6 +11,8 @@ import little.old.me.ingestion.domain.port.out.PersistRawDataPort;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.Optional;
+
 
 @ApplicationScoped
 @RequiredArgsConstructor
@@ -33,10 +35,12 @@ public class RawDataService implements IngestRawDataUseCase {
         }
 
         RawData rawData = rawDataMapper.map(command.getData());
+        Optional<RawData> deduplicated = loadRawDataPort.loadByPayloadChecksum(rawData.getPayloadChecksum());
 
         // only continue if the raw data is not already persisted
-        if (loadRawDataPort.loadByPayloadChecksum(rawData.getPayloadChecksum()).isPresent()) {
-            log.info("Raw data already persisted: {}", rawData);
+        if (deduplicated.isPresent()) {
+            log.info("Raw data already persisted: {}",
+                    Optional.of(deduplicated.get().getId().getValue()).orElse(null));
             return;
         }
 

@@ -16,7 +16,11 @@ public class RawDataEntityMapper implements Mapper<RawData, RawDataEntity> {
     @Override
     public RawDataEntity map(RawData input) {
         try {
-            return modelMapper.map(input, RawDataEntity.class);
+            RawDataEntity output = modelMapper.map(input, RawDataEntity.class);
+            if (input.getId() != null) {
+                output.setId(input.getId().getValue());
+            }
+            return output;
         } catch (Exception e) {
             throw new MappingException("Error while mapping to RawDataEntity", e);
         }

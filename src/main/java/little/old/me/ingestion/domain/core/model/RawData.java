@@ -15,6 +15,7 @@ import java.time.Instant;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RawData {
+    private RawDataId id;
     private SourceType source;
 
     private int version;
@@ -29,5 +30,11 @@ public class RawData {
 
     public enum SourceType {
         allianz
+    }
+
+    @AllArgsConstructor
+    @Getter
+    public static class RawDataId{
+        private Integer value;
     }
 }

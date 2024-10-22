@@ -16,7 +16,11 @@ public class RawDataMapper implements Mapper<RawDataEntity, RawData> {
 
     public RawData map(RawDataEntity input) {
         try {
-            return modelMapper.map(input, RawData.class);
+            RawData output = modelMapper.map(input, RawData.class);
+            if (input.getId() != null) {
+                output.setId(new RawData.RawDataId(input.getId()));
+            }
+            return output;
         } catch (Exception e) {
             throw new MappingException("Error while mapping to RawData", e);
         }
